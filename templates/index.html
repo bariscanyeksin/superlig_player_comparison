@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Süper Lig Oyuncu Karşılaştırma</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="../static/scripts.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Süper Lig Oyuncu Karşılaştırma</h1>
+        <form id="chartForm" method="POST" action="/radar_chart">
+            <div class="radio-group">
+                <input type="radio" id="defender" name="selected_position" value="DF" onclick="updatePlayers()">
+                <label for="defender">Savunmacı</label>
+                <input type="radio" id="midfielder" name="selected_position" value="MF" onclick="updatePlayers()">
+                <label for="midfielder">Orta Saha</label>
+                <input type="radio" id="forward" name="selected_position" value="FW" onclick="updatePlayers()">
+                <label for="forward">Forvet</label>
+            </div>
+            <div class="select-group" id="select-group">
+                <select name="player1_name" id="player1">
+                    {% for player in form.player1_name.choices %}
+                    <option value="{{ player[0] }}">{{ player[1] }}</option>
+                    {% endfor %}
+                </select>
+                <span style="color: white; font-size: 20px; font-weight: bold;">-</span>
+                <select name="player2_name" id="player2">
+                    {% for player in form.player2_name.choices %}
+                    <option value="{{ player[0] }}">{{ player[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="hidden" name="selected_position" id="selectedPosition">
+            <input class="submit_button" type="submit" value="Oluştur">
+        </form>
+        <div id="loadingSpinner" style="display: none;">
+            <img src="/static/loading.gif" alt="Loading..." style="width: 50px;" />
+        </div>
+        <div id="chartContainer">
+            {% if chart_img %}
+            <img src="{{ chart_img }}" alt="Radar Chart" id="chartImage">
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
